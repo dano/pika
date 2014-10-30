@@ -6,13 +6,7 @@ import logging
 import math
 import platform
 import threading
-import urllib
 import warnings
-
-if sys.version_info > (3,):
-    import urllib.parse as urlparse
-else:
-    import urlparse
 
 from pika import __version__
 from pika import callback
@@ -24,6 +18,9 @@ from pika import heartbeat
 from pika import utils
 
 from pika import spec
+
+from pika.compat import urlparse, basestring, unquote
+
 
 BACKPRESSURE_WARNING = ("Pika: Write buffer exceeded warning threshold at "
                         "%i bytes and an estimated %i frames behind")
@@ -60,14 +57,14 @@ class Parameters(object):
     DEFAULT_HEARTBEAT_INTERVAL = 0
     DEFAULT_HOST = 'localhost'
     DEFAULT_LOCALE = 'en_US'
-    DEFAULT_PASSWORD = 'guest'
+    DEFAULT_PASSWORD = b'guest'
     DEFAULT_PORT = 5672
     DEFAULT_RETRY_DELAY = 2.0
     DEFAULT_SOCKET_TIMEOUT = 0.25
     DEFAULT_SSL = False
     DEFAULT_SSL_OPTIONS = {}
     DEFAULT_SSL_PORT = 5671
-    DEFAULT_USERNAME = 'guest'
+    DEFAULT_USERNAME = b'guest'
     DEFAULT_VIRTUAL_HOST = '/'
 
     def __init__(self):
@@ -472,7 +469,7 @@ class URLParameters(Parameters):
             self.virtual_host = self.DEFAULT_VIRTUAL_HOST
         else:
             path_parts = parts.path.split('/')
-            virtual_host = urllib.unquote(path_parts[1])
+            virtual_host = unquote(path_parts[1])
             if self._validate_virtual_host(virtual_host):
                 self.virtual_host = virtual_host
 
@@ -480,7 +477,7 @@ class URLParameters(Parameters):
         values = urlparse.parse_qs(parts.query)
 
         # Cast the various numeric values to the appropriate values
-        for key in values.keys():
+        for key in list(values.keys()):
             # Always reassign the first list item in query values
             values[key] = values[key].pop(0)
             if values[key].isdigit():
@@ -908,7 +905,7 @@ class Connection(object):
 
         """
         if self.is_open:
-            for channel_number in self._channels.keys():
+            for channel_number in list(self._channels.keys()):
                 if self._channels[channel_number].is_open:
                     self._channels[channel_number].close(reply_code, reply_text)
                 else:
@@ -1037,7 +1034,7 @@ class Connection(object):
 
         """
         return any([self._channels[num].is_open for num in
-                    self._channels.keys()])
+                    list(self._channels.keys())])
 
     def _has_pending_callbacks(self, value):
         """Return true if there are any callbacks pending for the specified
@@ -1135,8 +1132,8 @@ class Connection(object):
         limit = self.params.channel_max or channel.MAX_CHANNELS
         if len(self._channels) == limit:
             raise exceptions.NoFreeChannels()
-        return [x + 1 for x in sorted(self._channels.keys() or [0])
-                if x + 1 not in self._channels.keys()][0]
+        return [x + 1 for x in sorted(list(self._channels.keys()) or [0])
+                if x + 1 not in list(self._channels.keys())][0]
 
     def _on_channel_closeok(self, method_frame):
         """Remove the channel from the dict of channels when Channel.CloseOk is
@@ -1300,7 +1297,7 @@ class Connection(object):
                        self.params.host, self.params.port,
                        reply_code, reply_text)
         self._set_connection_state(self.CONNECTION_CLOSED)
-        for channel in self._channels.keys():
+        for channel in list(self._channels.keys()):
             if channel not in self._channels:
                 continue
             method_frame = frame.Method(channel, spec.Channel.Close(reply_code,

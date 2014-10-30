@@ -18,14 +18,14 @@ from pika import spec
 
 class CallbackTests(unittest.TestCase):
 
-    KEY = 'Test Key'
+    KEY = b'Test Key'
     ARGUMENTS = callback.CallbackManager.ARGUMENTS
     CALLS = callback.CallbackManager.CALLS
     CALLBACK = callback.CallbackManager.CALLBACK
     ONE_SHOT = callback.CallbackManager.ONE_SHOT
     ONLY_CALLER = callback.CallbackManager.ONLY_CALLER
     PREFIX_CLASS = spec.Basic.Consume
-    PREFIX = 'Basic.Consume'
+    PREFIX = b'Basic.Consume'
     ARGUMENTS_VALUE = {'foo': 'bar'}
 
     @property
@@ -72,15 +72,15 @@ class CallbackTests(unittest.TestCase):
         self.assertEqual(callback._name_or_value(value), self.PREFIX)
 
     def test_name_or_value_str(self):
-        value = 'Test String Value'
+        value = b'Test String Value'
         expectation = value
         self.assertEqual(callback._name_or_value(value), expectation)
 
     def test_name_or_value_unicode(self):
         value = u'Это тест значения'
-        expectation = ('\xd0\xad\xd1\x82\xd0\xbe \xd1\x82\xd0\xb5\xd1\x81\xd1'
-                       '\x82 \xd0\xb7\xd0\xbd\xd0\xb0\xd1\x87\xd0\xb5\xd0\xbd'
-                       '\xd0\xb8\xd1\x8f')
+        expectation = (b'\xd0\xad\xd1\x82\xd0\xbe \xd1\x82\xd0\xb5\xd1\x81\xd1'
+                       b'\x82 \xd0\xb7\xd0\xbd\xd0\xb0\xd1\x87\xd0\xb5\xd0\xbd'
+                       b'\xd0\xb8\xd1\x8f')
         self.assertEqual(callback._name_or_value(value), expectation)
 
     def test_empty_callbacks_on_init(self):
@@ -278,7 +278,7 @@ class CallbackTests(unittest.TestCase):
         self.assertIn(self.PREFIX, self.obj._stack)
 
     def test_remove_prefix_key_with_other_key_remains(self):
-        OTHER_KEY = 'Other Key'
+        OTHER_KEY = b'Other Key'
         self.obj.add(self.PREFIX_CLASS, self.KEY, self.callback_mock)
         self.obj.add(prefix=self.PREFIX_CLASS, key=OTHER_KEY,
                      callback=self.mock_caller)
@@ -286,7 +286,7 @@ class CallbackTests(unittest.TestCase):
         self.assertIn(OTHER_KEY, self.obj._stack[self.PREFIX])
 
     def test_remove_prefix_key_with_other_key_callback_remains(self):
-        OTHER_KEY = 'Other Key'
+        OTHER_KEY = b'Other Key'
         self.obj.add(self.PREFIX_CLASS, self.KEY, self.callback_mock)
         self.obj.add(self.PREFIX_CLASS, OTHER_KEY, self.mock_caller)
         self.obj.remove(self.PREFIX, self.KEY)

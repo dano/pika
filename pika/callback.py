@@ -7,9 +7,9 @@ import logging
 
 from pika import frame
 from pika import amqp_object
+from pika.compat import xrange, unicode
 
 LOGGER = logging.getLogger(__name__)
-
 
 def _name_or_value(value):
     """Will take Frame objects, classes, etc and attempt to return a valid
@@ -36,10 +36,17 @@ def _name_or_value(value):
         return value.NAME
 
     # Cast the value to a string, encoding it if it's unicode
-    try:
-        return str(value)
-    except UnicodeEncodeError:
-        return str(value.encode('utf-8'))
+    if isinstance(value, unicode):
+        return value.encode('utf-8')
+    elif isinstance(value, bytes):
+        return value
+    else:
+        # Convert int to bytes
+        try:
+            return bytes(str(value))
+        except TypeError:
+            # Python 3 compat
+            return str(value).encode('utf-8')
 
 
 def sanitize_prefix(function):

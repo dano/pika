@@ -344,7 +344,7 @@ class ChannelTests(unittest.TestCase):
         self.obj._set_state(self.obj.OPEN)
         exchange = 'basic_publish_test'
         routing_key = 'routing-key-fun'
-        body = 'This is my body'
+        body = b'This is my body'
         properties = spec.BasicProperties(content_type='text/plain')
         mandatory = False
         immediate = True
@@ -359,7 +359,7 @@ class ChannelTests(unittest.TestCase):
         self.obj._set_state(self.obj.OPEN)
         exchange = 'basic_publish_test'
         routing_key = 'routing-key-fun'
-        body = 'This is my body'
+        body = b'This is my body'
         properties = spec.BasicProperties(content_type='text/plain')
         mandatory = False
         immediate = False
@@ -511,7 +511,7 @@ class ChannelTests(unittest.TestCase):
                          self.obj.callbacks.add.call_args_list)
 
     def test_consumer_tags(self):
-        self.assertListEqual(self.obj.consumer_tags, self.obj._consumers.keys())
+        self.assertListEqual(self.obj.consumer_tags, list(self.obj._consumers.keys()))
 
     def test_exchange_bind_raises_channel_closed(self):
         self.assertRaises(exceptions.ChannelClosed,

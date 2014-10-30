@@ -112,7 +112,7 @@ class BoundQueueTestCase(AsyncTestCase):
         cconn.ioloop.stop()
         self._cconn = None
 
-    def _on_cconn_error(self, connection):
+    def _on_cconn_error(self, connection, *args, **kwargs):
         connection.ioloop.stop()
         raise AssertionError('Error connecting to RabbitMQ')
 

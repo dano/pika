@@ -4,7 +4,6 @@ Tests for pika.connection.Connection
 """
 import mock
 import random
-import urllib
 import copy
 try:
     import unittest2 as unittest
@@ -16,6 +15,7 @@ from pika import channel
 from pika import credentials
 from pika import frame
 from pika import spec
+from pika.compat import xrange, urlencode
 
 
 def callback_method():
@@ -180,7 +180,7 @@ class ConnectionTests(unittest.TestCase):
         for backpressure in ('t', 'f'):
             test_params = copy.deepcopy(url_params)
             test_params['backpressure_detection'] = backpressure
-            query_string = urllib.urlencode(test_params)
+            query_string = urlencode(test_params)
             test_url = 'https://www.test.com?%s' % query_string
             params = connection.URLParameters(test_url)
             #check each value
@@ -331,7 +331,7 @@ class ConnectionTests(unittest.TestCase):
         """make sure starting a connection sets the correct class vars"""
         method_frame = mock.Mock()
         method_frame.method = mock.Mock()
-        method_frame.method.mechanisms = str(credentials.PlainCredentials.TYPE)
+        method_frame.method.mechanisms = credentials.PlainCredentials.TYPE
         method_frame.method.version_major = 0
         method_frame.method.version_minor = 9
         #This may be incorrectly mocked, or the code is wrong
