@@ -146,11 +146,13 @@ class ContentFrameDispatcherTests(unittest.TestCase):
 
     def test_binary_non_unicode_value(self):
         expectation =('a', 0.8)
+        dumped = marshal.dumps(expectation)
         self.obj = channel.ContentFrameDispatcher()
         method_frame = frame.Method(1, spec.Basic.Deliver())
         self.obj.process(method_frame)
-        header_frame = frame.Header(1, 20, spec.BasicProperties)
+        header_frame = frame.Header(1, len(dumped), spec.BasicProperties)
         self.obj.process(header_frame)
-        body_frame = frame.Body(1, marshal.dumps(expectation))
+        body_frame = frame.Body(1, dumped)
+        print(body_frame)
         method_frame, header_frame, body_value = self.obj.process(body_frame)
         self.assertEqual(marshal.loads(body_value), expectation)

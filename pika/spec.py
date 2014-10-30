@@ -849,7 +849,7 @@ class Exchange(amqp_object.Class):
     class DeclareOk(amqp_object.Method):
 
         INDEX = 0x0028000B  # 40, 11; 2621451
-        Name = b'Exchange.DeclareOk'
+        NAME = b'Exchange.DeclareOk'
 
         def __init__(self):
             pass
@@ -868,7 +868,7 @@ class Exchange(amqp_object.Class):
     class Delete(amqp_object.Method):
 
         INDEX = 0x00280014  # 40, 20; 2621460
-        Name = b'Exchange.Delete'
+        NAME = b'Exchange.Delete'
 
         def __init__(self, ticket=0, exchange=None, if_unused=False, nowait=False):
             self.ticket = ticket
@@ -916,7 +916,7 @@ class Exchange(amqp_object.Class):
     class DeleteOk(amqp_object.Method):
 
         INDEX = 0x00280015  # 40, 21; 2621461
-        Name = b'Exchange.DeleteOk'
+        NAME = b'Exchange.DeleteOk'
 
         def __init__(self):
             pass
@@ -935,7 +935,7 @@ class Exchange(amqp_object.Class):
     class Bind(amqp_object.Method):
 
         INDEX = 0x0028001E  # 40, 30; 2621470
-        Name = b'Exchange.Bind'
+        NAME = b'Exchange.Bind'
 
         def __init__(self, ticket=0, destination=None, source=None, routing_key='', nowait=False, arguments={}):
             self.ticket = ticket
@@ -1010,7 +1010,7 @@ class Exchange(amqp_object.Class):
     class BindOk(amqp_object.Method):
 
         INDEX = 0x0028001F  # 40, 31; 2621471
-        Name = b'Exchange.BindOk'
+        NAME = b'Exchange.BindOk'
 
         def __init__(self):
             pass
@@ -1029,7 +1029,7 @@ class Exchange(amqp_object.Class):
     class Unbind(amqp_object.Method):
 
         INDEX = 0x00280028  # 40, 40; 2621480
-        Name = b'Exchange.Unbind'
+        NAME = b'Exchange.Unbind'
 
         def __init__(self, ticket=0, destination=None, source=None, routing_key='', nowait=False, arguments={}):
             self.ticket = ticket
@@ -1104,7 +1104,7 @@ class Exchange(amqp_object.Class):
     class UnbindOk(amqp_object.Method):
 
         INDEX = 0x00280033  # 40, 51; 2621491
-        Name = b'Exchange.UnbindOk'
+        NAME = b'Exchange.UnbindOk'
 
         def __init__(self):
             pass
@@ -1124,12 +1124,12 @@ class Exchange(amqp_object.Class):
 class Queue(amqp_object.Class):
 
     INDEX = 0x0032  # 50
-    Name = b'Queue'
+    NAME = b'Queue'
 
     class Declare(amqp_object.Method):
 
         INDEX = 0x0032000A  # 50, 10; 3276810
-        Name = b'Queue.Declare'
+        NAME = b'Queue.Declare'
 
         def __init__(self, ticket=0, queue='', passive=False, durable=False, exclusive=False, auto_delete=False, nowait=False, arguments={}):
             self.ticket = ticket
@@ -1192,7 +1192,7 @@ class Queue(amqp_object.Class):
     class DeclareOk(amqp_object.Method):
 
         INDEX = 0x0032000B  # 50, 11; 3276811
-        Name = b'Queue.DeclareOk'
+        NAME = b'Queue.DeclareOk'
 
         def __init__(self, queue=None, message_count=None, consumer_count=None):
             self.queue = queue
@@ -1232,7 +1232,7 @@ class Queue(amqp_object.Class):
     class Bind(amqp_object.Method):
 
         INDEX = 0x00320014  # 50, 20; 3276820
-        Name = b'Queue.Bind'
+        NAME = b'Queue.Bind'
 
         def __init__(self, ticket=0, queue='', exchange=None, routing_key='', nowait=False, arguments={}):
             self.ticket = ticket
@@ -1307,7 +1307,7 @@ class Queue(amqp_object.Class):
     class BindOk(amqp_object.Method):
 
         INDEX = 0x00320015  # 50, 21; 3276821
-        Name = b'Queue.BindOk'
+        NAME = b'Queue.BindOk'
 
         def __init__(self):
             pass
@@ -1326,7 +1326,7 @@ class Queue(amqp_object.Class):
     class Purge(amqp_object.Method):
 
         INDEX = 0x0032001E  # 50, 30; 3276830
-        Name = b'Queue.Purge'
+        NAME = b'Queue.Purge'
 
         def __init__(self, ticket=0, queue='', nowait=False):
             self.ticket = ticket
@@ -1370,7 +1370,7 @@ class Queue(amqp_object.Class):
     class PurgeOk(amqp_object.Method):
 
         INDEX = 0x0032001F  # 50, 31; 3276831
-        Name = b'Queue.PurgeOk'
+        NAME = b'Queue.PurgeOk'
 
         def __init__(self, message_count=None):
             self.message_count = message_count
@@ -1392,7 +1392,7 @@ class Queue(amqp_object.Class):
     class Delete(amqp_object.Method):
 
         INDEX = 0x00320028  # 50, 40; 3276840
-        Name = b'Queue.Delete'
+        NAME = b'Queue.Delete'
 
         def __init__(self, ticket=0, queue='', if_unused=False, if_empty=False, nowait=False):
             self.ticket = ticket
@@ -1444,7 +1444,7 @@ class Queue(amqp_object.Class):
     class DeleteOk(amqp_object.Method):
 
         INDEX = 0x00320029  # 50, 41; 3276841
-        Name = b'Queue.DeleteOk'
+        NAME = b'Queue.DeleteOk'
 
         def __init__(self, message_count=None):
             self.message_count = message_count
@@ -1466,7 +1466,7 @@ class Queue(amqp_object.Class):
     class Unbind(amqp_object.Method):
 
         INDEX = 0x00320032  # 50, 50; 3276850
-        Name = b'Queue.Unbind'
+        NAME = b'Queue.Unbind'
 
         def __init__(self, ticket=0, queue='', exchange=None, routing_key='', arguments={}):
             self.ticket = ticket
@@ -1533,7 +1533,7 @@ class Queue(amqp_object.Class):
     class UnbindOk(amqp_object.Method):
 
         INDEX = 0x00320033  # 50, 51; 3276851
-        Name = b'Queue.UnbindOk'
+        NAME = b'Queue.UnbindOk'
 
         def __init__(self):
             pass
@@ -1553,12 +1553,12 @@ class Queue(amqp_object.Class):
 class Basic(amqp_object.Class):
 
     INDEX = 0x003C  # 60
-    Name = b'Basic'
+    NAME = b'Basic'
 
     class Qos(amqp_object.Method):
 
         INDEX = 0x003C000A  # 60, 10; 3932170
-        Name = b'Basic.Qos'
+        NAME = b'Basic.Qos'
 
         def __init__(self, prefetch_size=0, prefetch_count=0, global_=False):
             self.prefetch_size = prefetch_size
@@ -1592,7 +1592,7 @@ class Basic(amqp_object.Class):
     class QosOk(amqp_object.Method):
 
         INDEX = 0x003C000B  # 60, 11; 3932171
-        Name = b'Basic.QosOk'
+        NAME = b'Basic.QosOk'
 
         def __init__(self):
             pass
@@ -1611,7 +1611,7 @@ class Basic(amqp_object.Class):
     class Consume(amqp_object.Method):
 
         INDEX = 0x003C0014  # 60, 20; 3932180
-        Name = b'Basic.Consume'
+        NAME = b'Basic.Consume'
 
         def __init__(self, ticket=0, queue='', consumer_tag='', no_local=False, no_ack=False, exclusive=False, nowait=False, arguments={}):
             self.ticket = ticket
@@ -1684,7 +1684,7 @@ class Basic(amqp_object.Class):
     class ConsumeOk(amqp_object.Method):
 
         INDEX = 0x003C0015  # 60, 21; 3932181
-        Name = b'Basic.ConsumeOk'
+        NAME = b'Basic.ConsumeOk'
 
         def __init__(self, consumer_tag=None):
             self.consumer_tag = consumer_tag
@@ -1716,7 +1716,7 @@ class Basic(amqp_object.Class):
     class Cancel(amqp_object.Method):
 
         INDEX = 0x003C001E  # 60, 30; 3932190
-        Name = b'Basic.Cancel'
+        NAME = b'Basic.Cancel'
 
         def __init__(self, consumer_tag=None, nowait=False):
             self.consumer_tag = consumer_tag
@@ -1756,7 +1756,7 @@ class Basic(amqp_object.Class):
     class CancelOk(amqp_object.Method):
 
         INDEX = 0x003C001F  # 60, 31; 3932191
-        Name = b'Basic.CancelOk'
+        NAME = b'Basic.CancelOk'
 
         def __init__(self, consumer_tag=None):
             self.consumer_tag = consumer_tag
@@ -1788,7 +1788,7 @@ class Basic(amqp_object.Class):
     class Publish(amqp_object.Method):
 
         INDEX = 0x003C0028  # 60, 40; 3932200
-        Name = b'Basic.Publish'
+        NAME = b'Basic.Publish'
 
         def __init__(self, ticket=0, exchange='', routing_key='', mandatory=False, immediate=False):
             self.ticket = ticket
@@ -1850,7 +1850,7 @@ class Basic(amqp_object.Class):
     class Return(amqp_object.Method):
 
         INDEX = 0x003C0032  # 60, 50; 3932210
-        Name = b'Basic.Return'
+        NAME = b'Basic.Return'
 
         def __init__(self, reply_code=None, reply_text='', exchange=None, routing_key=None):
             self.reply_code = reply_code
@@ -1914,7 +1914,7 @@ class Basic(amqp_object.Class):
     class Deliver(amqp_object.Method):
 
         INDEX = 0x003C003C  # 60, 60; 3932220
-        Name = b'Basic.Deliver'
+        NAME = b'Basic.Deliver'
 
         def __init__(self, consumer_tag=None, delivery_tag=None, redelivered=False, exchange=None, routing_key=None):
             self.consumer_tag = consumer_tag
@@ -1986,7 +1986,7 @@ class Basic(amqp_object.Class):
     class Get(amqp_object.Method):
 
         INDEX = 0x003C0046  # 60, 70; 3932230
-        Name = b'Basic.Get'
+        NAME = b'Basic.Get'
 
         def __init__(self, ticket=0, queue='', no_ack=False):
             self.ticket = ticket
@@ -2030,7 +2030,7 @@ class Basic(amqp_object.Class):
     class GetOk(amqp_object.Method):
 
         INDEX = 0x003C0047  # 60, 71; 3932231
-        Name = b'Basic.GetOk'
+        NAME = b'Basic.GetOk'
 
         def __init__(self, delivery_tag=None, redelivered=False, exchange=None, routing_key=None, message_count=None):
             self.delivery_tag = delivery_tag
@@ -2092,7 +2092,7 @@ class Basic(amqp_object.Class):
     class GetEmpty(amqp_object.Method):
 
         INDEX = 0x003C0048  # 60, 72; 3932232
-        Name = b'Basic.GetEmpty'
+        NAME = b'Basic.GetEmpty'
 
         def __init__(self, cluster_id=''):
             self.cluster_id = cluster_id
@@ -2124,7 +2124,7 @@ class Basic(amqp_object.Class):
     class Ack(amqp_object.Method):
 
         INDEX = 0x003C0050  # 60, 80; 3932240
-        Name = b'Basic.Ack'
+        NAME = b'Basic.Ack'
 
         def __init__(self, delivery_tag=0, multiple=False):
             self.delivery_tag = delivery_tag
@@ -2154,7 +2154,7 @@ class Basic(amqp_object.Class):
     class Reject(amqp_object.Method):
 
         INDEX = 0x003C005A  # 60, 90; 3932250
-        Name = b'Basic.Reject'
+        NAME = b'Basic.Reject'
 
         def __init__(self, delivery_tag=None, requeue=True):
             self.delivery_tag = delivery_tag
@@ -2184,7 +2184,7 @@ class Basic(amqp_object.Class):
     class RecoverAsync(amqp_object.Method):
 
         INDEX = 0x003C0064  # 60, 100; 3932260
-        Name = b'Basic.RecoverAsync'
+        NAME = b'Basic.RecoverAsync'
 
         def __init__(self, requeue=False):
             self.requeue = requeue
@@ -2210,7 +2210,7 @@ class Basic(amqp_object.Class):
     class Recover(amqp_object.Method):
 
         INDEX = 0x003C006E  # 60, 110; 3932270
-        Name = b'Basic.Recover'
+        NAME = b'Basic.Recover'
 
         def __init__(self, requeue=False):
             self.requeue = requeue
@@ -2236,7 +2236,7 @@ class Basic(amqp_object.Class):
     class RecoverOk(amqp_object.Method):
 
         INDEX = 0x003C006F  # 60, 111; 3932271
-        Name = b'Basic.RecoverOk'
+        NAME = b'Basic.RecoverOk'
 
         def __init__(self):
             pass
@@ -2255,7 +2255,7 @@ class Basic(amqp_object.Class):
     class Nack(amqp_object.Method):
 
         INDEX = 0x003C0078  # 60, 120; 3932280
-        Name = b'Basic.Nack'
+        NAME = b'Basic.Nack'
 
         def __init__(self, delivery_tag=0, multiple=False, requeue=True):
             self.delivery_tag = delivery_tag
@@ -2290,12 +2290,12 @@ class Basic(amqp_object.Class):
 class Tx(amqp_object.Class):
 
     INDEX = 0x005A  # 90
-    Name = b'Tx'
+    NAME = b'Tx'
 
     class Select(amqp_object.Method):
 
         INDEX = 0x005A000A  # 90, 10; 5898250
-        Name = b'Tx.Select'
+        NAME = b'Tx.Select'
 
         def __init__(self):
             pass
@@ -2314,7 +2314,7 @@ class Tx(amqp_object.Class):
     class SelectOk(amqp_object.Method):
 
         INDEX = 0x005A000B  # 90, 11; 5898251
-        Name = b'Tx.SelectOk'
+        NAME = b'Tx.SelectOk'
 
         def __init__(self):
             pass
@@ -2333,7 +2333,7 @@ class Tx(amqp_object.Class):
     class Commit(amqp_object.Method):
 
         INDEX = 0x005A0014  # 90, 20; 5898260
-        Name = b'Tx.Commit'
+        NAME = b'Tx.Commit'
 
         def __init__(self):
             pass
@@ -2352,7 +2352,7 @@ class Tx(amqp_object.Class):
     class CommitOk(amqp_object.Method):
 
         INDEX = 0x005A0015  # 90, 21; 5898261
-        Name = b'Tx.CommitOk'
+        NAME = b'Tx.CommitOk'
 
         def __init__(self):
             pass
@@ -2371,7 +2371,7 @@ class Tx(amqp_object.Class):
     class Rollback(amqp_object.Method):
 
         INDEX = 0x005A001E  # 90, 30; 5898270
-        Name = b'Tx.Rollback'
+        NAME = b'Tx.Rollback'
 
         def __init__(self):
             pass
@@ -2390,7 +2390,7 @@ class Tx(amqp_object.Class):
     class RollbackOk(amqp_object.Method):
 
         INDEX = 0x005A001F  # 90, 31; 5898271
-        Name = b'Tx.RollbackOk'
+        NAME = b'Tx.RollbackOk'
 
         def __init__(self):
             pass
@@ -2410,12 +2410,12 @@ class Tx(amqp_object.Class):
 class Confirm(amqp_object.Class):
 
     INDEX = 0x0055  # 85
-    Name = b'Confirm'
+    NAME = b'Confirm'
 
     class Select(amqp_object.Method):
 
         INDEX = 0x0055000A  # 85, 10; 5570570
-        Name = b'Confirm.Select'
+        NAME = b'Confirm.Select'
 
         def __init__(self, nowait=False):
             self.nowait = nowait
@@ -2441,7 +2441,7 @@ class Confirm(amqp_object.Class):
     class SelectOk(amqp_object.Method):
 
         INDEX = 0x0055000B  # 85, 11; 5570571
-        Name = b'Confirm.SelectOk'
+        NAME = b'Confirm.SelectOk'
 
         def __init__(self):
             pass
@@ -2462,7 +2462,7 @@ class BasicProperties(amqp_object.Properties):
 
     CLASS = Basic
     INDEX = 0x003C  # 60
-    Name = b'BasicProperties'
+    NAME = b'BasicProperties'
 
     FLAG_CONTENT_TYPE = (1 << 15)
     FLAG_CONTENT_ENCODING = (1 << 14)

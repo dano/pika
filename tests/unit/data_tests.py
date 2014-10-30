@@ -10,6 +10,7 @@ try:
     import unittest2 as unittest
 except ImportError:
     import unittest
+from collections import OrderedDict
 
 from pika import data
 from pika import exceptions
@@ -18,7 +19,7 @@ from pika.compat import long
 
 class DataTests(unittest.TestCase):
 
-    FIELD_TBL_ENCODED = (b'\x00\x00\x00\xbb\x07longvall\x00\x00\x00\x006e&U'
+    FIELD_TBL_ENCODED = (b'\x00\x00\x00\xbb\x07longvall\x00\x00\x00\x01\x00\x00\x00\x00'
                          b'\x06intvalI\x00\x00\x00\x01\x07dictvalF\x00\x00'
                          b'\x00\x0c\x03fooS\x00\x00\x00\x03bar\x07unicodeS'
                          b'\x00\x00\x00\x08utf8=\xe2\x9c\x93\x05arrayA\x00'
@@ -28,24 +29,28 @@ class DataTests(unittest.TestCase):
                          b'\x07decimalD\x02\x00\x00\x01:\x07boolvalt\x01'
                          b'\x0bdecimal_tooD\x00\x00\x00\x00d')
 
-    FIELD_TBL_VALUE = {b'array': [1, 2, 3],
-                       b'boolval': True,
-                       b'decimal': decimal.Decimal('3.14'),
-                       b'decimal_too': decimal.Decimal('100'),
-                       b'dictval': {b'foo': b'bar'},
-                       b'intval': 1,
-                       b'longval': long(912598613),
-                       b'null': None,
-                       b'strval': b'Test',
-                       b'timestampval': datetime.datetime(2006, 11, 21, 16, 30,
-                                                         10),
-                       'unicode': u'utf8=✓'}
+    FIELD_TBL_VALUE = OrderedDict([
+                       ('longval', long(4294967296)),
+                       ('intval', 1),
+                       ('dictval', {'foo': 'bar'}),
+                       ('unicode', u'utf8=✓'),
+                       ('array', [1, 2, 3]),
+                       ('null', None),
+                       ('strval', 'Test'),
+                       ('timestampval', datetime.datetime(2006, 11, 21, 16, 30,
+                                                         10)),
+                       ('decimal', decimal.Decimal('3.14')),
+                       ('boolval', True),
+                       ('decimal_too', decimal.Decimal('100')),
+                       ])
 
     @unittest.skipIf(platform.python_implementation() == 'PyPy',
                      'pypy sort order issue')
     def test_encode_table(self):
         result = []
         data.encode_table(result, self.FIELD_TBL_VALUE)
+        print(b''.join(result))
+        print(self.FIELD_TBL_ENCODED)
         self.assertEqual(b''.join(result), self.FIELD_TBL_ENCODED)
 
     def test_encode_table_bytes(self):

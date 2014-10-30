@@ -157,14 +157,14 @@ class CallbackTests(unittest.TestCase):
         self.assertDictEqual(self.obj._stack, dict())
 
     def test_cleanup_removes_prefix(self):
-        OTHER_PREFIX = 'Foo'
+        OTHER_PREFIX = b'Foo'
         self.obj.add(self.PREFIX, self.KEY, None)
         self.obj.add(OTHER_PREFIX, 'Bar', None)
         self.obj.cleanup(self.PREFIX)
         self.assertNotIn(self.PREFIX, self.obj._stack)
 
     def test_cleanup_keeps_other_prefix(self):
-        OTHER_PREFIX = 'Foo'
+        OTHER_PREFIX = b'Foo'
         self.obj.add(self.PREFIX, self.KEY, None)
         self.obj.add(OTHER_PREFIX, 'Bar', None)
         self.obj.cleanup(self.PREFIX)

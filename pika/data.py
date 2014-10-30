@@ -52,12 +52,14 @@ def encode_value(pieces, value):
     elif isinstance(value, bool):
         pieces.append(struct.pack('>cB', b't', int(value)))
         return 2
-    elif isinstance(value, int):
-        pieces.append(struct.pack('>ci', b'I', value))
-        return 5
-    elif isinstance(value, long):
-        pieces.append(struct.pack('>cq', b'l', value))
-        return 9
+    elif isinstance(value, (int, long)):
+        try:
+            pieces.append(struct.pack('>ci', b'I', value))
+            return 5
+        except struct.error:
+            # Didn't fit in an int, use a long long.
+            pieces.append(struct.pack('>cq', b'l', value))
+            return 9
     elif isinstance(value, decimal.Decimal):
         value = value.normalize()
         if value.as_tuple().exponent < 0:
@@ -106,7 +108,7 @@ def decode_table(encoded, offset):
     while offset < limit:
         keylen = struct.unpack_from('B', encoded, offset)[0]
         offset += 1
-        key = encoded[offset: offset + keylen]
+        key = encoded[offset: offset + keylen].decode('utf-8')
         offset += keylen
         value, offset = decode_value(encoded, offset)
         result[key] = value
